@@ -1,1 +1,5 @@
 node_modules/
+/mydotnetapp/.vs/mydotnetapp
+/mydotnetapp/bin/Debug/net6.0
+/mydotnetapp/obj/Debug/net6.0
+/mydotnetapp/obj
