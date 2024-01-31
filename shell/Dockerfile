@@ -1,7 +1,7 @@
 # Use a lightweight base image
-FROM alpine:latest
+FROM ubuntu:latest
 
-COPY ./hello.sh /
+COPY hello.sh /
 
 WORKDIR /
 
@@ -9,4 +9,4 @@ WORKDIR /
 RUN chmod +x /hello.sh
 
 # Run the Bash script when the container starts
-ENTRYPOINT ["/hello.sh"]
+ENTRYPOINT ["hello"]

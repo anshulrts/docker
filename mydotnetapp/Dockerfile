@@ -11,6 +11,13 @@ RUN dotnet publish -c Release -o out
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /App
+RUN apt-get update && \
+    apt-get install -y python3 && \
+    apt-get install -y python3-pip
+
+RUN pip3 install --no-cache-dir boto3
+
 COPY --from=build-env /App/out .
+COPY basic.py .
 ENV web_version 2023.12.27.1234
-ENTRYPOINT ["dotnet", "mydotnetapp.dll"]
+ENTRYPOINT ["python3", "basic.py"]
