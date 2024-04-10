@@ -7,8 +7,8 @@ def call_secret():
     region_name = "us-east-1"
 
     session = boto3.session.Session(
-        aws_access_key_id='Test_Value',
-        aws_secret_access_key='Test_Value'
+        # aws_access_key_id='Test_Value',
+        # aws_secret_access_key='Test_Value'
     )
     client = session.client(
         service_name='secretsmanager',
