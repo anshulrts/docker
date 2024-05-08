@@ -22,4 +22,4 @@ COPY basic.py .
 COPY getsecret.py .
 COPY start.py .
 ENV web_version 2023.12.27.1234
-ENTRYPOINT ["python3", "basic.py"]
+ENTRYPOINT ["dotnet", "mydotnetapp.dll"]

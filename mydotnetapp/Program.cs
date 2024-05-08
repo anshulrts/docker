@@ -1,5 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Security.Cryptography;
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Model;
 
 Console.WriteLine("Hello, World");
 
@@ -12,6 +15,47 @@ var version = Environment.GetEnvironmentVariable("web_version");
 Console.WriteLine("Web Version is : " + version);
 
 WriteToFile();
+
+AWSConfigs.AWSRegion = "us-east-1";
+
+var bucketName = "servicesconfigdev";
+IAmazonS3 client = new AmazonS3Client();
+var request = new GetObjectRequest
+{
+    BucketName = bucketName,
+    Key = "abc.txt",
+};
+
+Console.WriteLine($"Get file from s3");
+using GetObjectResponse response = await client.GetObjectAsync(request);
+Console.WriteLine($"File received");
+
+
+try
+{
+    await response.WriteResponseStreamToFileAsync("abc.txt", true, CancellationToken.None);
+    Console.WriteLine($"File saved to docker successfully");
+}
+catch (AmazonS3Exception ex)
+{
+    Console.WriteLine($"S3 Error while downloading ");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"General error while downloading from s3 path ");
+}
+
+string filePath = Path.Combine("abc.txt");
+
+string fileContent;
+using (StreamReader reader = new StreamReader(filePath))
+{
+    fileContent = reader.ReadToEnd();
+}
+
+Console.WriteLine($"After downloading the file from s3, the content is {fileContent}");
+
+Console.WriteLine("Placeholders replaced successfully.");
 
 static void GetPlatform()
 {
@@ -35,6 +79,8 @@ static void GetPlatform()
             break;
     }
 }
+
+
 
 static void WriteToFile()
 {
